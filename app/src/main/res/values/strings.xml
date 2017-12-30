@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Fandog</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="usr">Usuario</string>
+    <string name="ingrese_password">Contaseña</string>
+    <string name="iniciar_sesion">Iniciar Sesion</string>
+    <string name="perdi_mi_clave">Perdi mi clave</string>
+    <string name="cerrar_sesion">Cerrar Sesion</string>
+    <string name="correo_electronico">Correo electronico...</string>
+    <string name="reenviar_clave">Reenviar clave</string>
+    <string name="ingresa_tu_correo_te_enviaremos_una_clave_nueva">Te enviaremos una clave nueva.</string>
+</resources>
