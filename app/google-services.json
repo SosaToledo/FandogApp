@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "143602636931",
-    "firebase_url": "https://fandog-2e605.firebaseio.com",
-    "project_id": "fandog-2e605",
-    "storage_bucket": "fandog-2e605.appspot.com"
+    "project_number": "935592408665",
+    "firebase_url": "https://fandog-f6c5a.firebaseio.com",
+    "project_id": "fandog-f6c5a",
+    "storage_bucket": "fandog-f6c5a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:143602636931:android:63fdb410dde950e6",
+        "mobilesdk_app_id": "1:935592408665:android:3f559691048f0baa",
         "android_client_info": {
-          "package_name": "com.thinco.fandog"
+          "package_name": "ar.com.thinco.fandog"
         }
       },
       "oauth_client": [
         {
-          "client_id": "143602636931-ne60gnt5ffjjl0acu2cac736pne7hjdt.apps.googleusercontent.com",
+          "client_id": "935592408665-9674nc1f0phjcq1kin7n3f2vi18m852k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCuexyR7pUWb2vOqm1GsFMfbi2sgLplqy4"
+          "current_key": "AIzaSyB2jky-pSej-5t2ErjMnusjoknKr7Aba-Y"
         }
       ],
       "services": {
@@ -31,50 +31,6 @@
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:143602636931:android:3f559691048f0baa",
-        "android_client_info": {
-          "package_name": "ar.com.thinco.fandog"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "143602636931-72ci3avshnhcrictlohth7j0sgmskm0u.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ar.com.thinco.fandog",
-            "certificate_hash": "169ec40dff2c67bbc0296c01b9a050d1ac288c89"
-          }
-        },
-        {
-          "client_id": "143602636931-ne60gnt5ffjjl0acu2cac736pne7hjdt.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCuexyR7pUWb2vOqm1GsFMfbi2sgLplqy4"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "143602636931-ne60gnt5ffjjl0acu2cac736pne7hjdt.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
         },
         "ads_service": {
           "status": 2

@@ -11,4 +11,16 @@
     <string name="correo_electronico">Correo electronico...</string>
     <string name="reenviar_clave">Reenviar clave</string>
     <string name="ingresa_tu_correo_te_enviaremos_una_clave_nueva">Te enviaremos una clave nueva.</string>
+    <string name="cargar_turno">Cargar turno</string>
+    <string name="title_activity_carga">Carga</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="stock_inicial">Stock Inicial</string>
+    <string name="salchichas">Salchichas</string>
+    <string name="compras">Compras:</string>
+    <string name="rotos">Rotos:</string>
+    <string name="sin_cargo">Sin cargo:</string>
+    <string name="sin_cargo_personal">Sin cargo personal:</string>
+    <string name="salidas">Salidas:</string>
+    <string name="stock_final">Stock final:</string>
 </resources>
