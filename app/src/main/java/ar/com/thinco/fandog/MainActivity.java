@@ -18,12 +18,12 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements Login.OnFragmentInteractionListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements Login.OnFragmentInteractionListener, FirebaseAuth.AuthStateListener {
 
     private FirebaseAuth mAuth;
-    private Button btnLogOut;
     private FragmentManager fragmentManager;
-
+    private FirebaseUser currentUser;
+    final private String TAG = "Current User";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,68 +31,48 @@ public class MainActivity extends AppCompatActivity implements Login.OnFragmentI
 // TODO: 27/12/17 Agregar Screen de Logo Thinco
 //        Aca comienzo mi codigo
         mAuth = FirebaseAuth.getInstance();
-        btnLogOut = findViewById(R.id.btnLogOut);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
         fragmentManager = getSupportFragmentManager();
 
 
-        inicio(currentUser);
-        mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (currentUser ==null)
-                    inicio(currentUser);
-                else {
-                    Toast.makeText(MainActivity.this, "Hay usuario", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplication(), Carga.class);
-                    startActivity(intent);
-                }
-            }
-        });
-        btnLogOut.setOnClickListener(this);
+        inicio();
+        mAuth.addAuthStateListener(this);
     }
 
-    private void inicio(FirebaseUser currentUser) {
+    private void inicio() {
+        currentUser = mAuth.getCurrentUser();
         List<Fragment> lista = fragmentManager.getFragments();
         if (currentUser == null ) {
             if ( lista.isEmpty() ){
                 //No hay usuario llamamos al fragment del login
                 Login fragmentLogin = new Login();
-                fragmentManager.beginTransaction().add(R.id.contenedorFr,fragmentLogin).commit();
-                btnLogOut.setEnabled(false);
+                fragmentManager.beginTransaction().add(R.id.contenedorFr,fragmentLogin).commitAllowingStateLoss();
             }
         }else {
-            btnLogOut.setEnabled(true);
         }
     }
 
     @Override
     public void onFragmentInteraction() {
-        borrarFragment();
-    }
-
-    private void borrarFragment() {
-        for(Fragment fragment:getSupportFragmentManager().getFragments()){
-            if(fragment!=null)
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-        }
-        btnLogOut.setEnabled(true);
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.btnLogOut:
-                FirebaseAuth.getInstance().signOut();
-                inicio(mAuth.getCurrentUser());
-                break;
-            default:
-                break;
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null){
+            inicio();
+            Log.i(TAG, "onAuthStateChanged: No hay usuario");            
+        }
+        else {
+            Log.i(TAG, "onAuthStateChanged: Si hay usuario");
+            Intent intent = new Intent(getApplication(), Principal.class);
+            startActivity(intent);
+            finish();
         }
     }
 }

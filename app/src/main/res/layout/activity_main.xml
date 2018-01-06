@@ -5,12 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="ar.com.thinco.fandog.MainActivity">
-    <Button
-        android:id="@+id/btnLogOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/cerrar_sesion"
-        />
     <FrameLayout
         android:id="@+id/contenedorFr"
         android:layout_width="match_parent"

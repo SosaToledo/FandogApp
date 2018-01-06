@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_stockInicial"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="Stock Inicial" />
+        <item
+            android:id="@+id/nav_carga_stock"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="Carga de Stock" />
+        <item
+            android:id="@+id/nav_carga_caja"
+            android:icon="@android:drawable/ic_input_get"
+            android:title="Cargar Caja" />
+    </group>
+
+
+    <item
+        android:id="@+id/nav_salir"
+        android:icon="@android:drawable/ic_delete"
+        android:title="@string/cerrar_sesion" />
+
+
+</menu>

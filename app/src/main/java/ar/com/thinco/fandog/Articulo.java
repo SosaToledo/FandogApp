@@ -3,12 +3,15 @@ package ar.com.thinco.fandog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 /**
@@ -67,13 +70,6 @@ public class Articulo extends Fragment {
         stockInicial = view.findViewById(R.id.fgCargaStockI);
     }
 
-    public int comprobaTusCampos(){
-        if (stockInicial!=null){
-            int asd = Integer.parseInt(stockInicial.getText().toString() );
-            return asd;
-        }else {
-            return 0;
-        }
 //        c = compras.getText().toString().trim();
 //        r =rotos.getText().toString().trim();
 //        sc =sinCargo.getText().toString().trim();
@@ -86,8 +82,6 @@ public class Articulo extends Fragment {
 //            return "No pueden haber campos vacios";
 //        else
 //            return "Todo Ok";
-
-    }
 
     @Override
     public void onAttach(Context context) {

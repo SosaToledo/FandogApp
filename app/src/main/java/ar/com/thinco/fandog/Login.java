@@ -10,8 +10,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +30,7 @@ public class Login extends Fragment implements View.OnClickListener {
     private FirebaseAuth firebaseAuth;
     private EditText etUser,etPass,etCorreo;
     private Button btnLogin, btnPerdiMiPass;
+    private ProgressBar progressBar;
 
     public Login() {
         // Required empty public constructor
@@ -54,6 +57,7 @@ public class Login extends Fragment implements View.OnClickListener {
         etPass = view.findViewById(R.id.etPassword);
         btnLogin = view.findViewById(R.id.btnLoginIniciarSesion);
         btnPerdiMiPass = view.findViewById(R.id.btnLoginPerdiMiClave);
+        progressBar = view.findViewById(R.id.pbLogin);
     }
 
     @Override
@@ -135,7 +139,6 @@ public class Login extends Fragment implements View.OnClickListener {
         );
         constructor.create();
         constructor.show();
-        Toast.makeText(getActivity(), "Entro", Toast.LENGTH_SHORT).show();
     }
 
     private void iniciarSesion() {
@@ -148,17 +151,25 @@ public class Login extends Fragment implements View.OnClickListener {
         }else if (user.length()<4 || pass.length()<4 ){
             Toast.makeText(getActivity(), "Error, datos demasiado cortos", Toast.LENGTH_SHORT).show();
         }else {
-
+            View view = getActivity().getCurrentFocus();
+            view.clearFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+            progressBar.setActivated(true);
+            progressBar.setVisibility(View.VISIBLE);
             firebaseAuth.signInWithEmailAndPassword(user,pass)
                     .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "Logeado correctamente.", Toast.LENGTH_SHORT).show();
                                 mListener.onFragmentInteraction();
                             } else {
-                                Toast.makeText(getActivity(), "Contaseña o usuario incorrecto.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Contraseña o usuario incorrecto.", Toast.LENGTH_SHORT).show();
                             }
+                            progressBar.setVisibility(View.INVISIBLE);
+                            progressBar.setActivated(false);
                         }
                     });
         }

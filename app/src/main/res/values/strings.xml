@@ -23,4 +23,32 @@
     <string name="sin_cargo_personal">Sin cargo personal:</string>
     <string name="salidas">Salidas:</string>
     <string name="stock_final">Stock final:</string>
+    <string name="title_activity_principal">Principal</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="guardar">Guardar</string>
+    <string name="inicial_de_gaseosas">Inicial de Gaseosas</string>
+    <string name="inicial_de_panes">Inicial de Panes</string>
+    <string name="inicial_de_salchichas">Inicial de Salchichas</string>
+    <string name="turno">Turno:</string>
+    <string name="local">Local:</string>
+    <string name="efectivo_en_caja">Efectivo en caja</string>
+    <string name="logo_de_la_empresa">Logo de la empresa</string>
+    <string name="no_tenes_un_nombre_asignado">No tenes un nombre asignado:</string>
+    <string name="ingresar_nombre">Ingresar nombre</string>
+
+    <string-array name="spinner_locales">
+        <item>Pergamino - Irigoyen</item>
+        <item>Pergamino - Av Mayo</item>
+        <item>Colon</item>
+        <item>Arrecifes</item>
+    </string-array>
+
+    <string-array name="spinner_turnos">
+        <item>Mañana</item>
+        <item>Tarde</item>
+        <item>Noche</item>
+        <item>Madrugada</item>
+    </string-array>
 </resources>

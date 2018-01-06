@@ -1,161 +1,110 @@
-<TableLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="vertical"
-    tools:context="ar.com.thinco.fandog.Articulo"
-    >
+        <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-<TableRow
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_margin="10dp"
-    android:layout_marginBottom="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/stock_inicial" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/stock_inicial" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fgCargaStockI"
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="5"/>
 
-    <EditText
-        android:id="@+id/fgCargaStockI"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:singleLine="true"
-        android:maxLength="5"/>
-</TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/compras" />
 
-<TableRow
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_margin="10dp"
-    android:layout_marginBottom="5dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fgCargaCompras"
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="5"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/compras" />
-
-    <EditText
-        android:id="@+id/fgCargaCompras"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:singleLine="true"
-        android:maxLength="5"/>
-</TableRow>
-
-<TableRow
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_margin="10dp"
-    android:layout_marginBottom="5dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/rotos" />
-
-    <EditText
-        android:id="@+id/fgCargaRotos"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:singleLine="true"
-        android:maxLength="5"/>
-</TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rotos" />
 
 
-<TableRow
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_margin="10dp"
-    android:layout_marginBottom="5dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fgCargaRotos"
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="5"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/sin_cargo" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sin_cargo" />
 
-    <EditText
-        android:id="@+id/fgCargaSinCargo"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:singleLine="true"
-        android:maxLength="5"/>
-</TableRow>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fgCargaSinCargo"
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="5"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sin_cargo_personal" />
 
-<TableRow
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_margin="10dp"
-    android:layout_marginBottom="5dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fgCargaSCPersonal"
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="5"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/sin_cargo_personal" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/salidas" />
 
-    <EditText
-        android:id="@+id/fgCargaSCPersonal"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:singleLine="true"
-        android:maxLength="5"/>
-</TableRow>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fgCargaSalidas"
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="5"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stock_final" />
 
-<TableRow
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_margin="10dp"
-    android:layout_marginBottom="5dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fgCargaStockF"
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="5"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/salidas" />
-
-    <EditText
-        android:id="@+id/fgCargaSalidas"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:singleLine="true"
-        android:maxLength="5"/>
-</TableRow>
-<TableRow
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_margin="10dp"
-    android:layout_marginBottom="5dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/stock_final" />
-
-    <EditText
-        android:id="@+id/fgCargaStockF"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:singleLine="true"
-        android:maxLength="5"/>
-</TableRow>
-
-
-</TableLayout>
-
+        <Button
+            android:id="@+id/fgCargaGuardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/guardar"/>
+        </LinearLayout>
+        </ScrollView>
