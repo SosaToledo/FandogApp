@@ -6,46 +6,63 @@
     <LinearLayout
         android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Efectivo inicial"/>
+            android:text="@string/efectivo_inicial"/>
 
         <EditText
             android:id="@+id/Caja_efectivoInicial"
+            android:freezesText="true"
+            android:inputType="number"
+            android:maxLines="1"
+            android:maxLength="5"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ventas"/>
+            android:text="@string/ventas"/>
 
         <EditText
             android:id="@+id/Caja_ventas"
+            android:freezesText="true"
+            android:inputType="number"
+            android:maxLines="1"
+            android:maxLength="5"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Efectivo final"/>
+            android:text="@string/efectivo_final"/>
         <EditText
             android:id="@+id/Caja_efectivoFinal"
+            android:freezesText="true"
+            android:inputType="number"
+            android:maxLines="1"
+            android:maxLength="5"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Diferencia:"/>
+            android:text="@string/diferencia"/>
         <EditText
             android:id="@+id/Caja_diferencia"
+            android:freezesText="true"
+            android:inputType="number"
+            android:maxLines="1"
+            android:maxLength="5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
 
         <Button
             android:id="@+id/btnGuardarEfectivo"

@@ -24,31 +24,35 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class Principal extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Articulo.OnFragmentInteractionListener, InicialFragment.OnFragmentInteractionListener, FirebaseAuth.AuthStateListener
-, CajaFragment.OnFragmentInteractionListener{
+public class PrincipalActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, InicialFragment.OnFragmentInteractionListener, FirebaseAuth.AuthStateListener
+, CajaFragment.OnFragmentInteractionListener, CargarStocksFragment.OnFragmentInteractionListener, ArticuloFragment.OnFragmentInteractionListener{
 
     private FirebaseAuth firebaseAuth;
-    final private String TAG = "Principal";
+    final private String TAG = "PrincipalActivity";
     private TextView nombre;
     private TextView correo;
+    private NavigationView navigationView;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         {
@@ -67,7 +71,7 @@ public class Principal extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 //        Cargo la actividad principal
@@ -80,32 +84,42 @@ public class Principal extends AppCompatActivity
         nombre = navHeader.findViewById(R.id.nav_header_userName);
         correo = navHeader.findViewById(R.id.nav_header_correo);
         cargarUI();
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     private void cargarUI() {
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         correo.setText(user.getEmail());
         if (user.getDisplayName() == null||user.getDisplayName().equals("")){
-//        if (user.getDisplayName().equals("Nombre Usuario")){
+//        if (user.getDisplayName().equals("Frank")||user.getDisplayName().equals("Thinco")){
             final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             View v = getLayoutInflater().inflate(R.layout.insertar_nombre,null);
             dialog.setView(v);
             dialog.setCancelable(true);
             Button b = v.findViewById(R.id.insertarNombre);
             final EditText et = v.findViewById(R.id.etInsertNombre);
+            final EditText apellido = v.findViewById(R.id.etInsertApellido);
 
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    if (!et.getText().toString().trim().isEmpty()){
+                    String a,b;
+                    a=et.getText().toString().trim();
+                    b=apellido.getText().toString().trim();
+                    if (!a.isEmpty()||!b.isEmpty()){
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(et.getText().toString().trim()).build();
-                        user.updateProfile(profileUpdates);
-                        nombre.setText(user.getDisplayName());
-
+                                .setDisplayName(a+" "+b).build();
+                        user.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful())
+                                            nombre.setText(user.getDisplayName());
+                                    }
+                                });
+                        Toast.makeText(PrincipalActivity.this, "Guardado", Toast.LENGTH_SHORT).show();
                     }else {
-                        Toast.makeText(Principal.this, "No puede estar vacio el campo", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PrincipalActivity.this, "No puede estar vacio el campo", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -113,12 +127,11 @@ public class Principal extends AppCompatActivity
         }else{
             nombre.setText(user.getDisplayName());
         }
-        Log.i(TAG, "cargarUI: user name= "+ user.getDisplayName());
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -157,15 +170,19 @@ public class Principal extends AppCompatActivity
         switch (id){
             case R.id.nav_stockInicial:
                 fragment = new InicialFragment();
+                navigationView.getMenu().getItem(0).setChecked(true);
                 break;
             case R.id.nav_carga_stock:
-                fragment = new Articulo();
+                fragment = new CargarStocksFragment();
+                navigationView.getMenu().getItem(1).setChecked(true);
                 break;
             case R.id.nav_carga_caja:
                 fragment = new CajaFragment();
+                navigationView.getMenu().getItem(2).setChecked(true);
                 break;
             case R.id.nav_salir:
                 firebaseAuth.signOut();
+                navigationView.getMenu().getItem(3).setChecked(true);
                 break;
             default:
                 break;
@@ -174,6 +191,7 @@ public class Principal extends AppCompatActivity
         if (fragment != null){
             getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right)
                 .replace(R.id.contenedorPrincipal, fragment)
                 .commit();
         }
@@ -199,5 +217,28 @@ public class Principal extends AppCompatActivity
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    public void inicialAvanzar() {
+        Fragment fragment = new CargarStocksFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right)
+                .replace(R.id.contenedorPrincipal, fragment)
+                .commit();
+        navigationView.getMenu().getItem(1).setChecked(true);
+    }
+
+    @Override
+    public void viewPagerAvanzar() {
+        Log.i(TAG, "viewPagerAvanzar: Entro desde principal");
+        Fragment fragment = new CajaFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right)
+                .replace(R.id.contenedorPrincipal, fragment)
+                .commit();
+        navigationView.getMenu().getItem(2).setChecked(true);
     }
 }

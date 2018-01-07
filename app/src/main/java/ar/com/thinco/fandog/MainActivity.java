@@ -8,9 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements Login.OnFragmentInteractionListener, FirebaseAuth.AuthStateListener {
+public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener, FirebaseAuth.AuthStateListener {
 
     private FirebaseAuth mAuth;
     private FragmentManager fragmentManager;
@@ -50,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements Login.OnFragmentI
         if (currentUser == null ) {
             if ( lista.isEmpty() ){
                 //No hay usuario llamamos al fragment del login
-                Login fragmentLogin = new Login();
-                fragmentManager.beginTransaction().add(R.id.contenedorFr,fragmentLogin).commitAllowingStateLoss();
+                LoginFragment fragmentLoginFragment = new LoginFragment();
+                fragmentManager.beginTransaction().add(R.id.contenedorFr, fragmentLoginFragment).commitAllowingStateLoss();
             }
         }else {
         }
@@ -70,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements Login.OnFragmentI
         }
         else {
             Log.i(TAG, "onAuthStateChanged: Si hay usuario");
-            Intent intent = new Intent(getApplication(), Principal.class);
+            Intent intent = new Intent(getApplication(), PrincipalActivity.class);
             startActivity(intent);
             finish();
         }

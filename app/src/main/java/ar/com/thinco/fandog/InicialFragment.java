@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,20 +66,13 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
 
 //      busco el resto de los elementos y los linkeo
         nombreVendedor = view.findViewById(R.id.nombreVendedor);
+        nombreVendedor.setText("Vendedor: "+FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         iniSalchichas = view.findViewById(R.id.iniSalchichas);
         iniPanes = view.findViewById(R.id.iniPanes);
         iniGaseosas = view.findViewById(R.id.iniGaseosas);
         btnGuardarIni = view.findViewById(R.id.btnGuardarIni);
         btnGuardarIni.setOnClickListener(this);
         return view;
-    }
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -99,25 +94,26 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        comprobarLosCampos();
+    }
+
+    private void comprobarLosCampos() {
+        String sLocal,sTurno,iniS,iniP,iniG,efe;
+        iniS = iniSalchichas.getText().toString().trim();
+        iniP = iniPanes.getText().toString().trim();
+        iniG = iniGaseosas.getText().toString().trim();
+        sLocal = spinnerLocal.getSelectedItem().toString();
+        sTurno = spinnerTurno.getSelectedItem().toString();
         // TODO: 6/1/2018 Falta comprobar los campos y despues hacer que no avance hasta que este todo cargado
-        int id = view.getId();
-        if (id == R.id.btnGuardarIni){
-            Toast.makeText(getActivity(), "entro bien", Toast.LENGTH_SHORT).show();
+
+        if (iniS.isEmpty()||iniP.isEmpty()||iniG.isEmpty()||spinnerLocal.getSelectedItemPosition()==0||spinnerTurno.getSelectedItemPosition()==0){
+            Toast.makeText(getActivity(), "No pueden haber campos vacios.", Toast.LENGTH_SHORT).show();
+        }else {
+            mListener.inicialAvanzar();
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void inicialAvanzar();
     }
 }
