@@ -1,9 +1,11 @@
 package ar.com.thinco.fandog;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +30,11 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
 
     private TextView nombreVendedor;
-    private EditText iniSalchichas, iniPanes, iniGaseosas,efectivoEnCaja;
+    private EditText iniSalchichas, iniPanes, iniGaseosas,efectivoEnCaja,precioSalschichas,precioGaseosas;
     private Spinner spinnerTurno,spinnerLocal;
-    private Button btnGuardarIni;
+    private String sLocal,sTurno,iniS,iniP,iniG,efe,precioS,precioGV,nVendedor;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     public InicialFragment() {
         // Required empty public constructor
@@ -44,9 +48,12 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inicial, container, false);
 
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
 //        Aca seteamos los spinners y los rellenamos
         spinnerTurno = view.findViewById(R.id.spinnerTurno);
-        spinnerLocal = (Spinner) view.findViewById(R.id.spinnerLocal);
+        spinnerLocal = view.findViewById(R.id.spinnerLocal);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapterTurno = ArrayAdapter.createFromResource(
                 getActivity(),
@@ -66,18 +73,29 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
 
 //      busco el resto de los elementos y los linkeo
         nombreVendedor = view.findViewById(R.id.nombreVendedor);
-        nombreVendedor.setText("Vendedor: "+FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        nVendedor =FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        nombreVendedor.setText("Vendedor: "+nVendedor);
         iniSalchichas = view.findViewById(R.id.iniSalchichas);
         iniPanes = view.findViewById(R.id.iniPanes);
         iniGaseosas = view.findViewById(R.id.iniGaseosas);
-        btnGuardarIni = view.findViewById(R.id.btnGuardarIni);
+        efectivoEnCaja = view.findViewById(R.id.efectivo_en_caja);
+
+        precioSalschichas = view.findViewById(R.id.precioSalchichas);
+        precioGaseosas = view.findViewById(R.id.precioGaseosas);
+
+        Button btnGuardarIni = view.findViewById(R.id.btnGuardarIni);
         btnGuardarIni.setOnClickListener(this);
+
+
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -93,24 +111,97 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        // TODO: 10/1/2018 se usa inicialEncontrado para cuando cierren la app, para el resume solo carga lo que tiene.
+        if (sharedPreferences.getBoolean("inicialEncontrado",false)){
+            AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
+            builder.setMessage("Se encontraron datos sin cargar")
+                    .setPositiveButton("Cargar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            poblarFormulario();
+                        }
+                    })
+                    .setNegativeButton("Descartar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            editor.putBoolean("inicialEncontrado",false);
+                            editor.commit();
+                            dialogInterface.cancel();
+                        }
+                    })
+                    .setCancelable(false);
+            builder.create().show();
+        }
+        if (sharedPreferences.getBoolean("inicialCargado",false)) {
+            poblarFormulario();
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         comprobarLosCampos();
     }
 
     private void comprobarLosCampos() {
-        String sLocal,sTurno,iniS,iniP,iniG,efe;
+
         iniS = iniSalchichas.getText().toString().trim();
         iniP = iniPanes.getText().toString().trim();
         iniG = iniGaseosas.getText().toString().trim();
         sLocal = spinnerLocal.getSelectedItem().toString();
         sTurno = spinnerTurno.getSelectedItem().toString();
-        // TODO: 6/1/2018 Falta comprobar los campos y despues hacer que no avance hasta que este todo cargado
+        efe = efectivoEnCaja.getText().toString();
+        precioS = precioSalschichas.getText().toString();
+        precioGV = precioGaseosas.getText().toString();
 
-        if (iniS.isEmpty()||iniP.isEmpty()||iniG.isEmpty()||spinnerLocal.getSelectedItemPosition()==0||spinnerTurno.getSelectedItemPosition()==0){
+        // TODO: 6/1/2018 Falta bloquear el avance hasta que este todo cargado
+
+        if (iniS.isEmpty()||iniP.isEmpty()||iniG.isEmpty()||spinnerLocal.getSelectedItemPosition()==0||
+                spinnerTurno.getSelectedItemPosition()==0||efe.isEmpty()||
+                precioS.isEmpty()||precioGV.isEmpty()){
             Toast.makeText(getActivity(), "No pueden haber campos vacios.", Toast.LENGTH_SHORT).show();
         }else {
+            guardarDatos();
+            // TODO: 9/1/2018 enviar todos los datos
+
             mListener.inicialAvanzar();
         }
+    }
+
+    private void guardarDatos() {
+
+        editor.putString("nombreVendedor",nVendedor);
+
+        editor.putString("inicialSalchichas",iniS);
+        editor.putString("inicialPanes",iniP);
+        editor.putString("inicialGaseosas",iniG);
+
+        editor.putString("local",sLocal);
+        editor.putInt("local-posicion",spinnerLocal.getSelectedItemPosition());
+        editor.putString("turno",sTurno);
+        editor.putInt("turno-posicion",spinnerTurno.getSelectedItemPosition());
+
+        editor.putString("efectivoInicial",efe);
+        editor.putString("precioSalchichas",precioS);
+        editor.putString("precioGaseosas",precioGV);
+
+        editor.putBoolean("inicialCargado",true);
+        editor.apply();
+    }
+
+    private void poblarFormulario() {
+        nombreVendedor.setText("Vendedor: "+sharedPreferences.getString("nombreVendedor","user"));
+
+        spinnerTurno.setSelection(sharedPreferences.getInt("turno-posicion",0));
+        spinnerLocal.setSelection(sharedPreferences.getInt("local-posicion",0));
+
+        iniSalchichas.setText(sharedPreferences.getString("inicialSalchichas","0"));
+        iniPanes.setText(sharedPreferences.getString("inicialPanes","0"));
+        iniGaseosas.setText(sharedPreferences.getString("inicialGaseosas","0"));
+        efectivoEnCaja.setText(sharedPreferences.getString("efectivoInicial","0"));
+        precioSalschichas.setText(sharedPreferences.getString("precioSalchichas","0"));
+        precioGaseosas.setText(sharedPreferences.getString("precioGaseosas","0"));
     }
 
     public interface OnFragmentInteractionListener {

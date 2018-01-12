@@ -1,10 +1,13 @@
 package ar.com.thinco.fandog;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +30,12 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
 
     private EditText stockInicial,compras,rotos,sinCargo,sinCargoPersonal,salidas,stockFinal;
-    private String sInicial,cpras,rtos,sCargo,sCargoPers,sdas,sFinal;
+    private String sInicial,cpras,rtos,sCargo,sCargoPers,sdas,sFinal,title;
     private Button btnGuardar;
     private OnChildFragmentInteractionListener mParentListener;
+    private SharedPreferences sharedPreferences;
 
-    public ArticuloFragment() {
+    public ArticuloFragment( ) {
     }
 
     public static ArticuloFragment newInstance(int sectionNumber) {
@@ -45,7 +49,7 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
     }
 
     @Override
@@ -64,6 +68,7 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
 
         btnGuardar = view.findViewById(R.id.fgCargaGuardar);
         btnGuardar.setOnClickListener(this);
+
         return view;
     }
 
@@ -83,6 +88,14 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         stockInicial = view.findViewById(R.id.fgCargaStockI);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (sharedPreferences.getBoolean(title+"Cargado",false)) {
+            stockInicial.setText(sharedPreferences.getString("inicial"+title,"0"));
+        }
     }
 
 
@@ -124,22 +137,53 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
                 ||sCargoPers.isEmpty()||sdas.isEmpty()||sFinal.isEmpty()){
             Toast.makeText(getActivity(), "No pueden haber campos vacios.", Toast.LENGTH_SHORT).show();
         }else {
+            if (comprobarErrores())
             // TODO: 7/1/2018 Comprobar errores al cargar
-            mParentListener.onChildFragmentInteraction();
+              mParentListener.onChildFragmentInteraction();
         }
     }
 
+    private boolean comprobarErrores() {
+        int si,sf,r,c,sc,scp,sal;
+        sInicial=stockInicial.getText().toString();
+        sFinal=stockFinal.getText().toString();
+        rtos=rotos.getText().toString();
+        cpras = compras.getText().toString();
+        sCargo = sinCargo.getText().toString();
+        sCargoPers = sinCargoPersonal.getText().toString();
+        sdas = salidas.getText().toString();
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+        si = Integer.parseInt(sInicial);
+        sf = Integer.parseInt(sFinal);
+        r = Integer.parseInt(rtos);
+        c = Integer.parseInt(cpras);
+        sc = Integer.parseInt(sCargo);
+        scp = Integer.parseInt(sCargoPers);
+        sal = Integer.parseInt(sdas);
+
+        //Comienzan las comprobaciones.
+        int totalSuma, totalResta, vta;
+        totalSuma = c + si;
+        totalResta = r + sc + scp + sal + sf;
+        vta = totalSuma - totalResta;
+        int hola = 0;
+        Log.i("comprobarErrores",String.valueOf(c));
+        if (si < sf)
+            hola = -si+r+sc+scp+sal+vta+sf;
+            Log.i("comprobacion",String.valueOf(hola));
+            if (c != -si+r+sc+scp+sal+vta+sf)
+                new AlertDialog.Builder(getActivity()).setTitle("Problema con el stock")
+                    .setMessage("Puede que hayas equivocado en las compras, volve a contar, deberian ser como: "+ (-si+r+sc+scp+sal+vta+sf) )
+                    .show();
+            return false;
+//        sharedPreferences.edit().putBoolean(title+"Cargado",true).commit();
+    }
+
+    public void setTitle(String s) {
+        title = s;
+    }
+
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

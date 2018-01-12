@@ -118,6 +118,34 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/precio_de_las_salchichas"
+            />
+
+        <EditText
+            android:id="@+id/precioSalchichas"
+            android:layout_width="match_parent"
+            android:maxLines="1"
+            android:maxLength="4"
+            android:inputType="number"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/precio_de_las_gaseosas_de_vidrio"
+            />
+
+        <EditText
+            android:id="@+id/precioGaseosas"
+            android:layout_width="match_parent"
+            android:maxLines="1"
+            android:maxLength="4"
+            android:inputType="number"
+            android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/btnGuardarIni"
         android:layout_width="match_parent"

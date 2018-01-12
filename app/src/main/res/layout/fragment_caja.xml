@@ -40,6 +40,53 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/alivios"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Desde:"/>
+            <EditText
+                android:id="@+id/desdeAlivios"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:maxLength="5"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:maxLines="1"
+                android:layout_height="wrap_content"
+                android:text="Hasta:"/>
+            <EditText
+                android:id="@+id/hastaAlivios"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLines="1"
+                android:layout_weight="1"
+                android:maxLength="5"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total alivios"/>
+        <EditText
+            android:id="@+id/totalAlivios"
+            android:freezesText="true"
+            android:inputType="number"
+            android:maxLines="1"
+            android:maxLength="5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/efectivo_final"/>
         <EditText
             android:id="@+id/Caja_efectivoFinal"

@@ -18,7 +18,14 @@ public class miPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new ArticuloFragment();
+        ArticuloFragment a = new ArticuloFragment();
+        switch (position){
+            case 0:a.setTitle("Salchichas");break;
+            case 1:a.setTitle("Panes");break;
+            case 2:a.setTitle("Gaseosas");break;
+            default:break;
+        }
+        return a;
     }
 
     @Override

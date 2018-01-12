@@ -110,7 +110,6 @@ public class CargarStocksFragment extends Fragment implements ArticuloFragment.O
 
         int i = viewPager.getCurrentItem()+1;
         int o = pagerAdapter.getCount();
-        Log.i("estado de los items", "current item: "+i+" total: "+o);
         if (i < o){
             viewPager.setCurrentItem(i);
             switch (i){

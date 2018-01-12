@@ -42,6 +42,9 @@
     <string name="efectivo_final">Efectivo final</string>
     <string name="diferencia">Diferencia:</string>
     <string name="ingresar_apellido">Ingresar apellido</string>
+    <string name="alivios">Alivios:</string>
+    <string name="precio_de_las_salchichas">Precio de las salchichas</string>
+    <string name="precio_de_las_gaseosas_de_vidrio">Precio de las Gaseosas de vidrio</string>
 
     <string-array name="spinner_locales">
         <item>-Seleccionar-</item>
