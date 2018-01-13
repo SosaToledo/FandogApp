@@ -2,7 +2,9 @@ package ar.com.thinco.fandog;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,6 +42,9 @@ public class PrincipalActivity extends AppCompatActivity
     private TextView correo;
     private NavigationView navigationView;
     private DrawerLayout drawer;
+    private SharedPreferences sharedPreferences;
+    private boolean Borrar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,8 @@ public class PrincipalActivity extends AppCompatActivity
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.addAuthStateListener(this);
+
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -131,34 +138,61 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            // TODO: 12/1/2018 esto solamente guarda el estado de inicialFragment, falta armar las demas, (3 prod y caja).
+            if (sharedPreferences.getBoolean("inicialCargado",false)){
+                new AlertDialog.Builder(this).setTitle("Antes de irte")
+                        .setMessage("¿Deseas guardar los datos no enviados?")
+                        .setCancelable(false)
+                        .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                sharedPreferences.edit()
+                                        .putBoolean("inicialEncontrado",true)
+                                        .putBoolean("inicialCargado",true)
+                                        .putBoolean("SalchichasCargado",true)
+                                        .putBoolean("PanesCargado",true)
+                                        .putBoolean("GaseosasCargado",true)
+                                        .putBoolean("CajaCargado",true)
+                                        .apply();
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Descartar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                sharedPreferences.edit()
+                                        .putBoolean("inicialEncontrado",false)
+                                        .putBoolean("inicialCargado",false)
+                                        .putBoolean("SalchichasCargado",false)
+                                        .putBoolean("PanesCargado",false)
+                                        .putBoolean("GaseosasCargado",false)
+                                        .putBoolean("CajaCargado",false)
+                                        .apply();
+                                dialogInterface.dismiss();
+                                finish();
+                            }
+                        })
+                        .create().show();
+            }else
+                super.onBackPressed();
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.principal, menu);
-        return true;
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    protected void onResume() {
+        super.onResume();
+        if (!sharedPreferences.getBoolean("inicialEncontrado",false)){
+            //ponemos todo a default
+            sharedPreferences.edit().clear().apply();
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -240,5 +274,10 @@ public class PrincipalActivity extends AppCompatActivity
                 .replace(R.id.contenedorPrincipal, fragment)
                 .commit();
         navigationView.getMenu().getItem(2).setChecked(true);
+    }
+
+    @Override
+    public void cajaAvanzar() {
+
     }
 }

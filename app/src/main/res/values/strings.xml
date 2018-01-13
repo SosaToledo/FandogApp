@@ -38,13 +38,14 @@
     <string name="no_tenes_un_nombre_asignado">No tenes un nombre asignado:</string>
     <string name="ingresar_nombre">Ingresar nombre</string>
     <string name="efectivo_inicial">Efectivo inicial</string>
-    <string name="ventas">Ventas</string>
     <string name="efectivo_final">Efectivo final</string>
     <string name="diferencia">Diferencia:</string>
     <string name="ingresar_apellido">Ingresar apellido</string>
     <string name="alivios">Alivios:</string>
     <string name="precio_de_las_salchichas">Precio de las salchichas</string>
     <string name="precio_de_las_gaseosas_de_vidrio">Precio de las Gaseosas de vidrio</string>
+    <string name="ventas">Ventas</string>
+    <string name="_0">0</string>
 
     <string-array name="spinner_locales">
         <item>-Seleccionar-</item>

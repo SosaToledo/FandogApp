@@ -19,12 +19,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link InicialFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
 public class InicialFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
@@ -111,29 +105,43 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        // TODO: 10/1/2018 se usa inicialEncontrado para cuando cierren la app, para el resume solo carga lo que tiene.
+    public void onStart() {
+        super.onStart();
         if (sharedPreferences.getBoolean("inicialEncontrado",false)){
             AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
-            builder.setMessage("Se encontraron datos sin cargar")
+            builder.setTitle("Bienvenido")
+                    .setMessage("Se encontraron elementos guardados")
                     .setPositiveButton("Cargar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            poblarFormulario();
+//                            poblarFormulario();
+                            sharedPreferences.edit()
+                                    .putBoolean("inicialEncontrado",false)
+                                    .apply();
                         }
                     })
                     .setNegativeButton("Descartar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            editor.putBoolean("inicialEncontrado",false);
-                            editor.commit();
-                            dialogInterface.cancel();
+                            dialogInterface.dismiss();
+                            sharedPreferences.edit()
+                                    .putBoolean("inicialEncontrado",false)
+                                    .putBoolean("inicialCargado",false)
+                                    .putBoolean("SalchichasCargado",false)
+                                    .putBoolean("PanesCargado",false)
+                                    .putBoolean("GaseosasCargado",false)
+                                    .putBoolean("CajaCargado",false )
+                                    .apply();
                         }
                     })
                     .setCancelable(false);
             builder.create().show();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if (sharedPreferences.getBoolean("inicialCargado",false)) {
             poblarFormulario();
         }
@@ -173,9 +181,9 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
 
         editor.putString("nombreVendedor",nVendedor);
 
-        editor.putString("inicialSalchichas",iniS);
-        editor.putString("inicialPanes",iniP);
-        editor.putString("inicialGaseosas",iniG);
+        editor.putString("SalchichasInicial",iniS);
+        editor.putString("PanesInicial",iniP);
+        editor.putString("GaseosasInicial",iniG);
 
         editor.putString("local",sLocal);
         editor.putInt("local-posicion",spinnerLocal.getSelectedItemPosition());
@@ -196,9 +204,9 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
         spinnerTurno.setSelection(sharedPreferences.getInt("turno-posicion",0));
         spinnerLocal.setSelection(sharedPreferences.getInt("local-posicion",0));
 
-        iniSalchichas.setText(sharedPreferences.getString("inicialSalchichas","0"));
-        iniPanes.setText(sharedPreferences.getString("inicialPanes","0"));
-        iniGaseosas.setText(sharedPreferences.getString("inicialGaseosas","0"));
+        iniSalchichas.setText(sharedPreferences.getString("SalchichasInicial","0"));
+        iniPanes.setText(sharedPreferences.getString("PanesInicial","0"));
+        iniGaseosas.setText(sharedPreferences.getString("GaseosasInicial","0"));
         efectivoEnCaja.setText(sharedPreferences.getString("efectivoInicial","0"));
         precioSalschichas.setText(sharedPreferences.getString("precioSalchichas","0"));
         precioGaseosas.setText(sharedPreferences.getString("precioGaseosas","0"));

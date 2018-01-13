@@ -1,13 +1,11 @@
 package ar.com.thinco.fandog;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +14,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ArticuloFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ArticuloFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ArticuloFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private OnFragmentInteractionListener mListener;
 
-    private EditText stockInicial,compras,rotos,sinCargo,sinCargoPersonal,salidas,stockFinal;
+    private EditText ventas,stockInicial,compras,rotos,sinCargo,sinCargoPersonal,salidas,stockFinal;
     private String sInicial,cpras,rtos,sCargo,sCargoPers,sdas,sFinal,title;
-    private Button btnGuardar;
     private OnChildFragmentInteractionListener mParentListener;
     private SharedPreferences sharedPreferences;
 
@@ -65,8 +55,9 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
         sinCargoPersonal = view.findViewById(R.id.fgCargaSCPersonal);
         salidas = view.findViewById(R.id.fgCargaSalidas);
         stockFinal = view.findViewById(R.id.fgCargaStockF);
+        ventas = view.findViewById(R.id.fgCargaVentas);
 
-        btnGuardar = view.findViewById(R.id.fgCargaGuardar);
+        Button btnGuardar = view.findViewById(R.id.fgCargaGuardar);
         btnGuardar.setOnClickListener(this);
 
         return view;
@@ -91,13 +82,19 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        stockInicial.setText(sharedPreferences.getString(title+"Inicial","0") );
+//            sharedPreferences.edit().putBoolean(title+"Cargado",false).apply();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (sharedPreferences.getBoolean(title+"Cargado",false)) {
-            stockInicial.setText(sharedPreferences.getString("inicial"+title,"0"));
+            poblarFormulario();
         }
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -116,6 +113,7 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
             throw new RuntimeException("The parent fragment must implement OnChildFragmentInteractionListener");
         }
     }
+
 
     @Override
     public void onDetach() {
@@ -137,46 +135,54 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
                 ||sCargoPers.isEmpty()||sdas.isEmpty()||sFinal.isEmpty()){
             Toast.makeText(getActivity(), "No pueden haber campos vacios.", Toast.LENGTH_SHORT).show();
         }else {
-            if (comprobarErrores())
-            // TODO: 7/1/2018 Comprobar errores al cargar
-              mParentListener.onChildFragmentInteraction();
+            int vta = comprobarErrores();
+            ventas.setText(String.valueOf(vta));
+
+            //Aca guardo todos los valores de los campos.
+            sharedPreferences.edit()
+                    .putString(title+"Inicial",sInicial)
+                    .putString(title+"Final",sFinal)
+                    .putString(title+"Rotos",rtos)
+                    .putString(title+"Compras",cpras)
+                    .putString(title+"SinCargo",sCargo)
+                    .putString(title+"SinCargoPersonal",sCargoPers)
+                    .putString(title+"Salidas",sdas)
+                    .putString(title+"Ventas",ventas.getText().toString())
+                    .putBoolean(title+"Cargado",true) //aca cargo la variable para comprobar luego y devolverlos de memoria
+                    .apply();
+            mParentListener.onChildFragmentInteraction();
         }
     }
 
-    private boolean comprobarErrores() {
-        int si,sf,r,c,sc,scp,sal;
-        sInicial=stockInicial.getText().toString();
-        sFinal=stockFinal.getText().toString();
-        rtos=rotos.getText().toString();
-        cpras = compras.getText().toString();
-        sCargo = sinCargo.getText().toString();
-        sCargoPers = sinCargoPersonal.getText().toString();
-        sdas = salidas.getText().toString();
+    private void poblarFormulario() {
+        stockInicial.setText(sharedPreferences.getString(title+"Inicial","" ) );
+        stockFinal.setText(sharedPreferences.getString(title+"Final","" ) );
+        rotos.setText(sharedPreferences.getString(title+"Rotos","") ) ;
+        compras.setText(sharedPreferences.getString(title+"Compras","" ) );
+        sinCargo.setText(sharedPreferences.getString(title+"SinCargo","")) ;
+        sinCargoPersonal.setText(sharedPreferences.getString(title+"SinCargoPersonal","") );
+        salidas.setText(sharedPreferences.getString(title+"Salidas","") ) ;
+        ventas.setText(sharedPreferences.getString(title+"Ventas","") ) ;
+    }
 
-        si = Integer.parseInt(sInicial);
-        sf = Integer.parseInt(sFinal);
-        r = Integer.parseInt(rtos);
-        c = Integer.parseInt(cpras);
-        sc = Integer.parseInt(sCargo);
-        scp = Integer.parseInt(sCargoPers);
-        sal = Integer.parseInt(sdas);
-
-        //Comienzan las comprobaciones.
-        int totalSuma, totalResta, vta;
-        totalSuma = c + si;
-        totalResta = r + sc + scp + sal + sf;
-        vta = totalSuma - totalResta;
-        int hola = 0;
-        Log.i("comprobarErrores",String.valueOf(c));
-        if (si < sf)
-            hola = -si+r+sc+scp+sal+vta+sf;
-            Log.i("comprobacion",String.valueOf(hola));
-            if (c != -si+r+sc+scp+sal+vta+sf)
-                new AlertDialog.Builder(getActivity()).setTitle("Problema con el stock")
-                    .setMessage("Puede que hayas equivocado en las compras, volve a contar, deberian ser como: "+ (-si+r+sc+scp+sal+vta+sf) )
-                    .show();
-            return false;
-//        sharedPreferences.edit().putBoolean(title+"Cargado",true).commit();
+    private int comprobarErrores() {
+        int si,sf,r,c,sc,scp,sal,vta;
+        si= Integer.valueOf(sInicial);
+        sf = Integer.valueOf(sFinal);
+        r = Integer.valueOf(rtos);
+        c = Integer.valueOf(cpras);
+        sc = Integer.valueOf(sCargo);
+        scp = Integer.valueOf(sCargoPers);
+        sal = Integer.valueOf(sdas);
+        vta = si -sf+c-r-sc-scp-sal;
+        return vta;
+//        si = sf - c + r + sc +scp + sal + vta;
+//        c = sf - si + r + sc + scp + sal + vta;
+//        r = -sf + si + c - sc - scp - sal - vta;
+//        sc = -sf + si + c - r - scp - sal - vta;
+//        scp = -sf + si + c - r - sc - sal -vta;
+//        sal = -sf + si + c -r - sc -scp - vta;
+//        sf = si + c - r -sc - scp - sal - vta;
     }
 
     public void setTitle(String s) {

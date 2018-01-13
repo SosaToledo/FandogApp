@@ -98,6 +98,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/ventas" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fgCargaVentas"
+            android:clickable="false"
+            android:text="Se calculan solas."
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/stock_final" />
 
         <EditText
@@ -114,5 +129,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/guardar"/>
-        </LinearLayout>
-        </ScrollView>
+
+    </LinearLayout>
+</ScrollView>

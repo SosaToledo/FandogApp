@@ -96,6 +96,21 @@
             android:maxLength="5"/>
 
         <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ventas" />
+
+        <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fgCargaVentas"
+        android:freezesText="true"
+        android:inputType="number|none"
+        android:singleLine="true"
+        android:text="@string/_0"
+        android:maxLength="5"/>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stock_final" />
