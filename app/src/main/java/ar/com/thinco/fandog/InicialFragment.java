@@ -104,9 +104,10 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         if (sharedPreferences.getBoolean("inicialEncontrado",false)){
             AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
             builder.setTitle("Bienvenido")
@@ -114,7 +115,7 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
                     .setPositiveButton("Cargar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-//                            poblarFormulario();
+                            poblarFormulario();
                             sharedPreferences.edit()
                                     .putBoolean("inicialEncontrado",false)
                                     .apply();
@@ -137,12 +138,8 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
                     .setCancelable(false);
             builder.create().show();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (sharedPreferences.getBoolean("inicialCargado",false)) {
+        if (sharedPreferences.getBoolean("inicialCargado",false)
+                &&!sharedPreferences.getBoolean("inicialEncontrado",false)) {
             poblarFormulario();
         }
     }
@@ -171,8 +168,6 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), "No pueden haber campos vacios.", Toast.LENGTH_SHORT).show();
         }else {
             guardarDatos();
-            // TODO: 9/1/2018 enviar todos los datos
-
             mListener.inicialAvanzar();
         }
     }

@@ -31,26 +31,30 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, InicialFragment.OnFragmentInteractionListener, FirebaseAuth.AuthStateListener
 , CajaFragment.OnFragmentInteractionListener, CargarStocksFragment.OnFragmentInteractionListener, ArticuloFragment.OnFragmentInteractionListener{
 
     private FirebaseAuth firebaseAuth;
-    final private String TAG = "PrincipalActivity";
     private TextView nombre;
     private TextView correo;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private SharedPreferences sharedPreferences;
-    private boolean Borrar;
-
+    private Turno miTuno;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -92,6 +96,7 @@ public class PrincipalActivity extends AppCompatActivity
         correo = navHeader.findViewById(R.id.nav_header_correo);
         cargarUI();
         navigationView.getMenu().getItem(0).setChecked(true);
+        getSupportActionBar().setTitle("Cargar Inicial");
     }
 
     private void cargarUI() {
@@ -182,17 +187,13 @@ public class PrincipalActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStop() {
         if (!sharedPreferences.getBoolean("inicialEncontrado",false)){
             //ponemos todo a default
             sharedPreferences.edit().clear().apply();
         }
+        super.onStop();
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -205,13 +206,16 @@ public class PrincipalActivity extends AppCompatActivity
             case R.id.nav_stockInicial:
                 fragment = new InicialFragment();
                 navigationView.getMenu().getItem(0).setChecked(true);
+                getSupportActionBar().setTitle("Cargar Inicial");
                 break;
             case R.id.nav_carga_stock:
                 fragment = new CargarStocksFragment();
                 navigationView.getMenu().getItem(1).setChecked(true);
+                getSupportActionBar().setTitle("Stock por Art");
                 break;
             case R.id.nav_carga_caja:
                 fragment = new CajaFragment();
+                getSupportActionBar().setTitle("Cargar Caja");
                 navigationView.getMenu().getItem(2).setChecked(true);
                 break;
             case R.id.nav_salir:
@@ -243,9 +247,7 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        Log.i(TAG, "onAuthStateChanged: Cambio el estado del user");
         if (firebaseAuth.getCurrentUser()!= null)
-            Log.i(TAG, "currentUser: "+firebaseAuth.getCurrentUser().toString());
         if (firebaseAuth.getCurrentUser() == null){
             Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
@@ -255,29 +257,168 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     public void inicialAvanzar() {
+        // TODO: 14/1/2018 agregar bloqueo para que no puedan cambiar de fragment hasta que no este cargado el inical
         Fragment fragment = new CargarStocksFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right)
                 .replace(R.id.contenedorPrincipal, fragment)
                 .commit();
+        getSupportActionBar().setTitle("Stock por Art");
         navigationView.getMenu().getItem(1).setChecked(true);
     }
 
     @Override
     public void viewPagerAvanzar() {
-        Log.i(TAG, "viewPagerAvanzar: Entro desde principal");
         Fragment fragment = new CajaFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right)
                 .replace(R.id.contenedorPrincipal, fragment)
                 .commit();
+        getSupportActionBar().setTitle("Cargar Caja");
         navigationView.getMenu().getItem(2).setChecked(true);
     }
 
     @Override
     public void cajaAvanzar() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.titleGuardando)
+                .setMessage(traerCampos())
+                .setCancelable(false)
+                .setPositiveButton(R.string.enviarVenta, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        enviarTurno();
+                    }
+                })
+                .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create().show();
+    }
 
+    private void enviarTurno() {
+        //Primero enviamos a la bd
+
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        String format = s.format(new Date());
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("fandog");
+        myRef.child(format).setValue(miTuno);
+
+        //luego seteamos las variables de iniciales en false.
+
+        sharedPreferences.edit().clear().apply();
+
+        //enviamos de nuevo a la primera pantalla.
+        InicialFragment fragment = new InicialFragment();
+        navigationView.getMenu().getItem(0).setChecked(true);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right)
+                .replace(R.id.contenedorPrincipal, fragment)
+                .commit();
+        getSupportActionBar().setTitle("Cargar Inicial");
+    }
+
+    private String traerCampos() {
+
+        String vendedor,local,precioSal,precioGas; //Stock Inicial
+        String salIni,salCom,salRot,salSc,salScp,salSal,salFin,salVta; //Salchichas
+        String panIni,panCom,panRot,panSc,panScp,panSal,panFin,panVta; //Pan
+        String gasIni,gasCom,gasRot,gasSc,gasScp,gasSal,gasFin,gasVta; //Gaseosas
+        String efeIni,ventasTotales,dAlivios,hAlivios,tAlivios,efeFin,difCaja; //CajaFragment
+
+        vendedor = nombre.getText().toString();
+        local = sharedPreferences.getString("local","");
+        precioSal = sharedPreferences.getString("precioSalchichas","");
+        precioGas = sharedPreferences.getString("precioGaseosas","");
+        salIni = sharedPreferences.getString("SalchichasInicial","");
+        salCom = sharedPreferences.getString("SalchichasCompras","");
+        salRot = sharedPreferences.getString("SalchichasRotos","");
+        salSc = sharedPreferences.getString("SalchichasSinCargo","");
+        salScp = sharedPreferences.getString("SalchichasSinCargoPersonal","");
+        salSal = sharedPreferences.getString("SalchichasSalidas","");
+        salFin = sharedPreferences.getString("SalchichasFinal","");
+        salVta = sharedPreferences.getString("SalchichasVentas","");
+        panIni = sharedPreferences.getString("PanesInicial","");
+        panCom = sharedPreferences.getString("PanesCompras","");
+        panRot = sharedPreferences.getString("PanesRotos","");
+        panSc = sharedPreferences.getString("PanesSinCargo","");
+        panScp = sharedPreferences.getString("PanesSinCargoPersonal","");
+        panSal = sharedPreferences.getString("PanesSalidas","");
+        panFin = sharedPreferences.getString("PanesFinal","");
+        panVta = sharedPreferences.getString("PanesVentas","");
+        gasIni = sharedPreferences.getString("GaseosasInicial","");
+        gasCom = sharedPreferences.getString("GaseosasCompras","");
+        gasRot = sharedPreferences.getString("GaseosasRotos","");
+        gasSc = sharedPreferences.getString("GaseosasSinCargo","");
+        gasScp = sharedPreferences.getString("GaseosasSinCargoPersonal","");
+        gasSal = sharedPreferences.getString("GaseosasSalidas","");
+        gasFin = sharedPreferences.getString("GaseosasFinal","");
+        gasVta = sharedPreferences.getString("GaseosasVentas","");
+        efeIni = sharedPreferences.getString("efectivoInicial","");
+        ventasTotales = sharedPreferences.getString("cajaVentas","");
+        dAlivios = sharedPreferences.getString("cajaDesdeAlivios","");
+        hAlivios = sharedPreferences.getString("cajaHastaAlivios","");
+        tAlivios = sharedPreferences.getString("cajaTotalAlivios","");
+        efeFin = sharedPreferences.getString("cajaEfectivoFinal","");
+        difCaja = sharedPreferences.getString("cajaDiferencia","");
+
+        miTuno = new Turno(
+                vendedor,local,precioSal,precioGas,salIni,salCom,salRot
+                ,salSc,salScp,salSal,salFin,salVta,panIni,panCom,panRot
+                ,panSc,panScp,panSal,panFin,panVta,gasIni,gasCom,gasRot
+                ,gasSc,gasScp,gasSal,gasFin,gasVta,efeIni,ventasTotales
+                ,dAlivios,hAlivios,tAlivios,efeFin,difCaja
+        );
+        
+        String resultado="";
+        resultado+= "Vendedor: "+vendedor+"\n"+
+                "Local: "+local+"\n" +
+                "Precio de Salchichas: "+ precioSal+"\n" +
+                "Precio de GV: "+precioGas+"\n" +
+                "\n" +
+                "Salchichas inicial: "+salIni+"\n" +
+                "Salchichas compras: "+salCom+"\n" +
+                "Salchichas rotas: "+salRot+"\n" +
+                "Salchichas sin cargo: "+salSc+"\n" +
+                "Salchichas s/c pers: "+salScp+"\n" +
+                "Salchichas salidas: "+salSal+"\n" +
+                "Salchichas final: "+salFin+"\n" +
+                "Salchichas vendidos: "+salVta+"\n" +
+                "\n" +
+                "Panes inicial: "+panIni+"\n" +
+                "Panes compras: "+panCom+"\n" +
+                "Panes rotos: "+panRot+"\n"+
+                "Panes sin cargo: "+panSc+"\n"+
+                "Panes s/c pers: "+panScp+"\n"+
+                "Panes salidas: "+panSal+"\n"+
+                "Panes final: "+panFin+"\n"+
+                "Panes vendidos: "+panVta+"\n"+
+                "\n"+
+                "Gaseosas inicial: "+gasIni+"\n" +
+                "Gaseosas compras: "+gasCom+"\n" +
+                "Gaseosas rotos: "+gasRot+"\n"+
+                "Gaseosas sin cargo: "+gasSc+"\n"+
+                "Gaseosas s/c pers: "+gasScp+"\n"+
+                "Gaseosas salidas: "+gasSal+"\n"+
+                "Gaseosas final: "+gasFin+"\n"+
+                "Gaseosas vendidos: "+gasVta+"\n"+
+                "\n"+
+                "Efectivo inicial en caja: "+efeIni+"\n"+
+                "Total de $ por ventas: "+ventasTotales+"\n"+
+                "Primer alivio usado: "+dAlivios+"\n"+
+                "Ultimo alivio usado: "+hAlivios+"\n"+
+                "Total de $ en alivios: "+tAlivios+"\n"+
+                "Efectivo final en caja: "+efeFin+"\n"+
+                "Diferencia de $: "+difCaja+"\n";
+
+        return resultado;
     }
 }

@@ -1,122 +1,269 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ar.com.thinco.fandog.CajaFragment">
-    <LinearLayout
-        android:layout_margin="10dp"
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="0dp"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/efectivo_inicial"/>
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/efectivo_inicial"
+            app:layout_constraintBaseline_toBaselineOf="@+id/Caja_efectivoInicial"
+            app:layout_constraintEnd_toStartOf="@+id/Caja_efectivoInicial"
+            app:layout_constraintHorizontal_bias="0.085"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
 
         <EditText
             android:id="@+id/Caja_efectivoInicial"
+            android:layout_width="176dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:freezesText="true"
+            android:hint="0"
             android:inputType="number"
-            android:maxLines="1"
             android:maxLength="5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="46dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ventas"/>
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/cajaVenta"
+            app:layout_constraintBaseline_toBaselineOf="@+id/Caja_ventas"
+            app:layout_constraintEnd_toStartOf="@+id/Caja_ventas"
+            app:layout_constraintHorizontal_bias="0.063"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
 
         <EditText
             android:id="@+id/Caja_ventas"
+            android:layout_width="176dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:freezesText="true"
+            android:hint="0"
             android:inputType="number"
-            android:maxLines="1"
             android:maxLength="5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:maxLines="1"
+            android:nextFocusDown="@id/desdeAlivios"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Caja_efectivoInicial"
+            tools:layout_conversion_absoluteHeight="46dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/alivios"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Desde:"/>
-            <EditText
-                android:id="@+id/desdeAlivios"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:maxLength="5"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:maxLines="1"
-                android:layout_height="wrap_content"
-                android:text="Hasta:"/>
-            <EditText
-                android:id="@+id/hastaAlivios"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLines="1"
-                android:layout_weight="1"
-                android:maxLength="5"/>
-        </LinearLayout>
+            android:id="@+id/textView20"
+            android:layout_width="321dp"
+            android:layout_height="17dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/alivios"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Caja_ventas"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
+
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total alivios"/>
+            android:layout_marginStart="16dp"
+            android:text="Desde:"
+            app:layout_constraintBaseline_toBaselineOf="@+id/desdeAlivios"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="43dp" />
+
+        <EditText
+            android:id="@+id/desdeAlivios"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:hint="0"
+            android:inputType="number"
+            android:maxLength="5"
+            android:maxLines="1"
+            android:nextFocusDown="@id/hastaAlivios"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textView21"
+            app:layout_constraintTop_toBottomOf="@+id/textView20"
+            tools:layout_conversion_absoluteHeight="46dp"
+            tools:layout_conversion_absoluteWidth="141dp" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:maxLines="1"
+            android:text="Hasta:"
+            app:layout_constraintBaseline_toBaselineOf="@+id/hastaAlivios"
+            app:layout_constraintEnd_toStartOf="@+id/hastaAlivios"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="40dp" />
+
+        <EditText
+            android:id="@+id/hastaAlivios"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:hint="0"
+            android:inputType="number"
+            android:maxLength="5"
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView20"
+            tools:layout_conversion_absoluteHeight="46dp"
+            tools:layout_conversion_absoluteWidth="141dp" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/total_alivios_en"
+            app:layout_constraintBaseline_toBaselineOf="@+id/totalAlivios"
+            app:layout_constraintEnd_toStartOf="@+id/totalAlivios"
+            app:layout_constraintHorizontal_bias="0.073"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
+
         <EditText
             android:id="@+id/totalAlivios"
+            android:layout_width="176dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:freezesText="true"
+            android:hint="0"
             android:inputType="number"
-            android:maxLines="1"
             android:maxLength="5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hastaAlivios"
+            tools:layout_conversion_absoluteHeight="46dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/efectivo_final"/>
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/efectivo_final"
+            app:layout_constraintBaseline_toBaselineOf="@+id/Caja_efectivoFinal"
+            app:layout_constraintEnd_toStartOf="@+id/Caja_efectivoFinal"
+            app:layout_constraintHorizontal_bias="0.078"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
+
         <EditText
             android:id="@+id/Caja_efectivoFinal"
+            android:layout_width="176dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:freezesText="true"
+            android:hint="0"
             android:inputType="number"
-            android:maxLines="1"
             android:maxLength="5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/totalAlivios"
+            tools:layout_conversion_absoluteHeight="46dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/diferencia"/>
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/diferencia"
+            app:layout_constraintBaseline_toBaselineOf="@+id/Caja_diferencia"
+            app:layout_constraintEnd_toStartOf="@+id/Caja_diferencia"
+            app:layout_constraintHorizontal_bias="0.068"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
+
         <EditText
             android:id="@+id/Caja_diferencia"
+            android:layout_width="176dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:freezesText="true"
+            android:hint="0"
             android:inputType="number"
-            android:maxLines="1"
             android:maxLength="5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Caja_efectivoFinal"
+            tools:layout_conversion_absoluteHeight="46dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
 
 
         <Button
             android:id="@+id/btnGuardarEfectivo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/guardar"/>
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/guardar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Caja_diferencia"
+            tools:layout_conversion_absoluteHeight="48dp"
+            tools:layout_conversion_absoluteWidth="364dp" />
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

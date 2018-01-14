@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.Serializable;
 
 
 public class ArticuloFragment extends Fragment implements View.OnClickListener {
@@ -176,6 +177,11 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
         sal = Integer.valueOf(sdas);
         vta = si -sf+c-r-sc-scp-sal;
         return vta;
+
+        // TODO: 14/1/2018 comprobar si el inicial es menor al final, preguntar por las compras , si es cero tirar un mensaje.
+        // TODO: 14/1/2018 calcular ventas (totalSuma-totalResta)-stockFinal = venta
+        // TODO: 14/1/2018 si ventas < 0, poner en 0 e informar error.
+
 //        si = sf - c + r + sc +scp + sal + vta;
 //        c = sf - si + r + sc + scp + sal + vta;
 //        r = -sf + si + c - sc - scp - sal - vta;

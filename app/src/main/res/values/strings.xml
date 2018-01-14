@@ -27,7 +27,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="guardar">Guardar</string>
+    <string name="continuar">Continuar</string>
+    <string name="guardar">Guardar turno</string>
     <string name="inicial_de_gaseosas">Inicial de Gaseosas</string>
     <string name="inicial_de_panes">Inicial de Panes</string>
     <string name="inicial_de_salchichas">Inicial de Salchichas</string>
@@ -37,15 +38,20 @@
     <string name="logo_de_la_empresa">Logo de la empresa</string>
     <string name="no_tenes_un_nombre_asignado">No tenes un nombre asignado:</string>
     <string name="ingresar_nombre">Ingresar nombre</string>
-    <string name="efectivo_inicial">Efectivo inicial</string>
-    <string name="efectivo_final">Efectivo final</string>
-    <string name="diferencia">Diferencia:</string>
+    <string name="efectivo_inicial">Efectivo inicial en $:</string>
+    <string name="efectivo_final">Efectivo final en $:</string>
+    <string name="diferencia">Diferencia de $:</string>
     <string name="ingresar_apellido">Ingresar apellido</string>
-    <string name="alivios">Alivios:</string>
-    <string name="precio_de_las_salchichas">Precio de las salchichas</string>
-    <string name="precio_de_las_gaseosas_de_vidrio">Precio de las Gaseosas de vidrio</string>
+    <string name="alivios">Alivios</string>
+    <string name="precio_de_las_salchichas">Pcio Salchichas</string>
+    <string name="precio_de_las_gaseosas_de_vidrio">Pcio Gaseosas de vidrio </string>
     <string name="ventas">Vendidos</string>
     <string name="_0">0</string>
+    <string name="titleGuardando">Revisa todo antes de guardar.</string>
+    <string name="enviarVenta">Enviar turno</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="cajaVenta">Ventas totales en $:</string>
+    <string name="total_alivios_en">Total alivios en $:</string>
 
     <string-array name="spinner_locales">
         <item>-Seleccionar-</item>
