@@ -38,8 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PrincipalActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, InicialFragment.OnFragmentInteractionListener, FirebaseAuth.AuthStateListener
-, CajaFragment.OnFragmentInteractionListener, CargarStocksFragment.OnFragmentInteractionListener, ArticuloFragment.OnFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener, InicialFragment.OnFragmentInteractionListener, CajaFragment.OnFragmentInteractionListener, CargarStocksFragment.OnFragmentInteractionListener, ArticuloFragment.OnFragmentInteractionListener{
 
     private FirebaseAuth firebaseAuth;
     private TextView nombre;
@@ -59,7 +58,6 @@ public class PrincipalActivity extends AppCompatActivity
 
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.addAuthStateListener(this);
 
         sharedPreferences = getPreferences(Context.MODE_PRIVATE);
 
@@ -219,8 +217,7 @@ public class PrincipalActivity extends AppCompatActivity
                 navigationView.getMenu().getItem(2).setChecked(true);
                 break;
             case R.id.nav_salir:
-                firebaseAuth.signOut();
-                navigationView.getMenu().getItem(3).setChecked(true);
+                salir();
                 break;
             default:
                 break;
@@ -245,14 +242,11 @@ public class PrincipalActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        if (firebaseAuth.getCurrentUser()!= null)
-        if (firebaseAuth.getCurrentUser() == null){
-            Intent intent = new Intent(this,MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+    private void salir(){
+        firebaseAuth.signOut();
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
