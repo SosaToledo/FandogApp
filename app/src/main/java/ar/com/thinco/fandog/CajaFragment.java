@@ -116,7 +116,6 @@ public class CajaFragment extends Fragment implements View.OnClickListener {
 
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void cajaAvanzar();
     }
 }

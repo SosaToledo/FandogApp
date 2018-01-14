@@ -38,7 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PrincipalActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, InicialFragment.OnFragmentInteractionListener, CajaFragment.OnFragmentInteractionListener, CargarStocksFragment.OnFragmentInteractionListener, ArticuloFragment.OnFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener, InicialFragment.OnFragmentInteractionListener, CajaFragment.OnFragmentInteractionListener, CargarStocksFragment.OnFragmentInteractionListener{
 
     private FirebaseAuth firebaseAuth;
     private TextView nombre;
@@ -144,7 +144,6 @@ public class PrincipalActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            // TODO: 12/1/2018 esto solamente guarda el estado de inicialFragment, falta armar las demas, (3 prod y caja).
             if (sharedPreferences.getBoolean("inicialCargado",false)){
                 new AlertDialog.Builder(this).setTitle("Antes de irte")
                         .setMessage("¿Deseas guardar los datos no enviados?")
@@ -187,7 +186,6 @@ public class PrincipalActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         if (!sharedPreferences.getBoolean("inicialEncontrado",false)){
-            //ponemos todo a default
             sharedPreferences.edit().clear().apply();
         }
         super.onStop();
@@ -236,11 +234,6 @@ public class PrincipalActivity extends AppCompatActivity
         return true;
     }
 
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
     private void salir(){
         firebaseAuth.signOut();

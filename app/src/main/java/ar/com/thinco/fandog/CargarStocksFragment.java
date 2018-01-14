@@ -3,6 +3,7 @@ package ar.com.thinco.fandog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,7 +25,7 @@ import java.util.List;
 
 
 
-public class CargarStocksFragment extends Fragment implements ArticuloFragment.OnFragmentInteractionListener, ArticuloFragment.OnChildFragmentInteractionListener {
+public class CargarStocksFragment extends Fragment implements ArticuloFragment.OnChildFragmentInteractionListener {
 
     private OnFragmentInteractionListener mListener;
     private List<Fragment> fragmentList;
@@ -66,15 +67,6 @@ public class CargarStocksFragment extends Fragment implements ArticuloFragment.O
         fragmentList.remove(f);
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.viewPagerAvanzar();
-        }
-    }
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -90,11 +82,6 @@ public class CargarStocksFragment extends Fragment implements ArticuloFragment.O
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     @Override
@@ -126,6 +113,15 @@ public class CargarStocksFragment extends Fragment implements ArticuloFragment.O
                 viewPager.setCurrentItem(1);
             }else {
                 // TODO: 7/1/2018 en lugar de ir al metodo este, hacer otro que verifique hijo por hijo que esta todo bien o cambiar la estrutura entera
+
+//                //Agrego tiempo de 1 seg de demora para que se vean los campos.
+//                Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mListener.viewPagerAvanzar();
+//                    }
+//                },2000);
                 mListener.viewPagerAvanzar();
                 PAG_UNO=PAG_DOS=PAG_TRES=false;
             }

@@ -1,11 +1,14 @@
 package ar.com.thinco.fandog;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +21,6 @@ import java.io.Serializable;
 
 public class ArticuloFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_SECTION_NUMBER = "section_number";
-
-    private OnFragmentInteractionListener mListener;
 
     private EditText ventas,stockInicial,compras,rotos,sinCargo,sinCargoPersonal,salidas,stockFinal;
     private String sInicial,cpras,rtos,sCargo,sCargoPers,sdas,sFinal,title;
@@ -100,12 +101,6 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
 
         // check if parent Fragment implements listener
         if (getParentFragment() instanceof OnChildFragmentInteractionListener) {
@@ -115,11 +110,9 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -136,22 +129,29 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
                 ||sCargoPers.isEmpty()||sdas.isEmpty()||sFinal.isEmpty()){
             Toast.makeText(getActivity(), "No pueden haber campos vacios.", Toast.LENGTH_SHORT).show();
         }else {
-            int vta = comprobarErrores();
-            ventas.setText(String.valueOf(vta));
-
-            //Aca guardo todos los valores de los campos.
-            sharedPreferences.edit()
-                    .putString(title+"Inicial",sInicial)
-                    .putString(title+"Final",sFinal)
-                    .putString(title+"Rotos",rtos)
-                    .putString(title+"Compras",cpras)
-                    .putString(title+"SinCargo",sCargo)
-                    .putString(title+"SinCargoPersonal",sCargoPers)
-                    .putString(title+"Salidas",sdas)
-                    .putString(title+"Ventas",ventas.getText().toString())
-                    .putBoolean(title+"Cargado",true) //aca cargo la variable para comprobar luego y devolverlos de memoria
-                    .apply();
-            mParentListener.onChildFragmentInteraction();
+            if (comprobarErrores()){
+                //Aca guardo todos los valores de los campos.
+                                sharedPreferences.edit()
+                                .putString(title+"Inicial",sInicial)
+                                .putString(title+"Final",sFinal)
+                                .putString(title+"Rotos",rtos)
+                                .putString(title+"Compras",cpras)
+                                .putString(title+"SinCargo",sCargo)
+                                .putString(title+"SinCargoPersonal",sCargoPers)
+                                .putString(title+"Salidas",sdas)
+                                .putString(title+"Ventas",ventas.getText().toString())
+                        .putBoolean(title+"Cargado",true) //aca cargo la variable para comprobar luego y devolverlos de memoria
+                        .apply();
+                //Agrego tiempo de 5 seg de demora para que se vean los campos.
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mParentListener.onChildFragmentInteraction();
+                    }
+                },1500);
+//                mParentListener.onChildFragmentInteraction();
+            }
         }
     }
 
@@ -166,7 +166,8 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
         ventas.setText(sharedPreferences.getString(title+"Ventas","") ) ;
     }
 
-    private int comprobarErrores() {
+    private boolean comprobarErrores() {
+        String mensaje="";
         int si,sf,r,c,sc,scp,sal,vta;
         si= Integer.valueOf(sInicial);
         sf = Integer.valueOf(sFinal);
@@ -175,8 +176,34 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
         sc = Integer.valueOf(sCargo);
         scp = Integer.valueOf(sCargoPers);
         sal = Integer.valueOf(sdas);
-        vta = si -sf+c-r-sc-scp-sal;
-        return vta;
+        vta = (si+c -r-c-sc-scp-sal)-sf;
+
+        if (vta<0){
+            vta=0;
+            mensaje+="Problema al calcular las ventas, revisa tus campos. \n" +
+                    "\n";
+        }
+        ventas.setText( String.valueOf(vta) );
+        if (si < sf){
+            if (c==0){
+                mensaje+="Tenes un problema con tu stock, revisar compras. \n" +
+                        "\n";
+            }
+        }
+        if (!mensaje.isEmpty()){
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Problema al comprobar campos")
+                    .setMessage(mensaje)
+                    .setNegativeButton("Revisar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+            return false;
+        }else
+            return true;
 
         // TODO: 14/1/2018 comprobar si el inicial es menor al final, preguntar por las compras , si es cero tirar un mensaje.
         // TODO: 14/1/2018 calcular ventas (totalSuma-totalResta)-stockFinal = venta
@@ -195,11 +222,6 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
         title = s;
     }
 
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
     public interface OnChildFragmentInteractionListener{
         void onChildFragmentInteraction();
     }

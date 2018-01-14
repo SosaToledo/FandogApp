@@ -160,7 +160,6 @@ public class InicialFragment extends Fragment implements View.OnClickListener {
         precioS = precioSalschichas.getText().toString();
         precioGV = precioGaseosas.getText().toString();
 
-        // TODO: 6/1/2018 Falta bloquear el avance hasta que este todo cargado
 
         if (iniS.isEmpty()||iniP.isEmpty()||iniG.isEmpty()||spinnerLocal.getSelectedItemPosition()==0||
                 spinnerTurno.getSelectedItemPosition()==0||efe.isEmpty()||
