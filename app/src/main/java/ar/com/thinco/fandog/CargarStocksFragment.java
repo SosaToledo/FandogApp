@@ -38,19 +38,11 @@ public class CargarStocksFragment extends Fragment implements ArticuloFragment.O
         // Required empty public constructor
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("Lista", (Serializable) fragmentList);
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState!=null)
-            fragmentList= (List<Fragment>) savedInstanceState.getSerializable("Lista");
-        else
-            fragmentList = new ArrayList<Fragment>();
+        fragmentList = new ArrayList<Fragment>();
     }
 
     @Override

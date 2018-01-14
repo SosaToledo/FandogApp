@@ -1,134 +1,284 @@
         <ScrollView
             xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="10dp"
-                android:paddingBottom="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/stock_inicial" />
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fgCargaStockI"
-            android:inputType="number"
-            android:singleLine="true"
-            android:freezesText="true"
-            android:maxLength="5"/>
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="0dp"
+                            android:text="@string/stock_inicial"
+                            android:textAlignment="textStart"
+                            android:textSize="15sp"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/fgCargaStockI"
+                            app:layout_constraintEnd_toStartOf="@+id/fgCargaStockI"
+                            app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/compras" />
+                        <EditText
+                            android:id="@+id/fgCargaStockI"
+                            android:layout_width="160dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:freezesText="true"
+                            android:hint="0"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:padding="0dp"
+                            android:paddingBottom="0dp"
+                            android:paddingStart="10dp"
+                            android:singleLine="true"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fgCargaCompras"
-            android:inputType="number"
-            android:freezesText="true"
-            android:singleLine="true"
-            android:maxLength="5"/>
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="0dp"
+                            android:text="@string/compras"
+                            android:textAlignment="textStart"
+                            android:textSize="15sp"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/fgCargaCompras"
+                            app:layout_constraintEnd_toStartOf="@+id/fgCargaCompras"
+                            app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rotos" />
+                        <EditText
+                            android:id="@+id/fgCargaCompras"
+                            android:layout_width="160dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:freezesText="true"
+                            android:hint="0"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:padding="0dp"
+                            android:paddingBottom="0dp"
+                            android:paddingStart="10dp"
+                            android:singleLine="true"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fgCargaStockI" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="0dp"
+                            android:text="@string/rotos"
+                            android:textAlignment="textStart"
+                            android:textSize="15sp"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/fgCargaRotos"
+                            app:layout_constraintEnd_toStartOf="@+id/fgCargaRotos"
+                            app:layout_constraintStart_toStartOf="parent" />
 
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:freezesText="true"
-            android:id="@+id/fgCargaRotos"
-            android:inputType="number"
-            android:singleLine="true"
-            android:maxLength="5"/>
+                        <EditText
+                            android:id="@+id/fgCargaRotos"
+                            android:layout_width="160dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:freezesText="true"
+                            android:hint="0"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:padding="0dp"
+                            android:paddingBottom="0dp"
+                            android:paddingStart="10dp"
+                            android:singleLine="true"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fgCargaCompras" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sin_cargo" />
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="0dp"
+                            android:text="@string/sin_cargo"
+                            android:textAlignment="textStart"
+                            android:textSize="15sp"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/fgCargaSinCargo"
+                            app:layout_constraintEnd_toStartOf="@+id/fgCargaSinCargo"
+                            app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:freezesText="true"
-            android:id="@+id/fgCargaSinCargo"
-            android:inputType="number"
-            android:singleLine="true"
-            android:maxLength="5"/>
+                        <EditText
+                            android:id="@+id/fgCargaSinCargo"
+                            android:layout_width="160dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:freezesText="true"
+                            android:hint="0"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:padding="0dp"
+                            android:paddingBottom="0dp"
+                            android:paddingStart="10dp"
+                            android:singleLine="true"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fgCargaRotos" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sin_cargo_personal" />
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="0dp"
+                            android:text="@string/sin_cargo_personal"
+                            android:textAlignment="textStart"
+                            android:textSize="15sp"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/fgCargaSCPersonal"
+                            app:layout_constraintEnd_toStartOf="@+id/fgCargaSCPersonal"
+                            app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fgCargaSCPersonal"
-            android:freezesText="true"
-            android:inputType="number"
-            android:singleLine="true"
-            android:maxLength="5"/>
+                        <EditText
+                            android:id="@+id/fgCargaSCPersonal"
+                            android:layout_width="160dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:freezesText="true"
+                            android:hint="0"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:padding="0dp"
+                            android:paddingBottom="0dp"
+                            android:paddingStart="10dp"
+                            android:singleLine="true"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fgCargaSinCargo" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/salidas" />
+                        <TextView
+                            android:id="@+id/textView7"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="0dp"
+                            android:text="@string/salidas"
+                            android:textAlignment="textStart"
+                            android:textSize="15sp"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/fgCargaSalidas"
+                            app:layout_constraintEnd_toStartOf="@+id/fgCargaSalidas"
+                            app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fgCargaSalidas"
-            android:freezesText="true"
-            android:inputType="number"
-            android:singleLine="true"
-            android:maxLength="5"/>
+                        <EditText
+                            android:id="@+id/fgCargaSalidas"
+                            android:layout_width="160dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:freezesText="true"
+                            android:hint="0"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:padding="0dp"
+                            android:paddingBottom="0dp"
+                            android:paddingStart="10dp"
+                            android:singleLine="true"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fgCargaSCPersonal" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ventas" />
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="0dp"
+                            android:text="@string/ventas"
+                            android:textAlignment="textStart"
+                            android:textSize="15sp"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/fgCargaVentas"
+                            app:layout_constraintEnd_toStartOf="@+id/fgCargaVentas"
+                            app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fgCargaVentas"
-            android:clickable="false"
-            android:text="Se calculan solas."
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false" />
+                        <EditText
+                            android:id="@+id/fgCargaVentas"
+                            android:layout_width="160dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:hint="0"
+                            android:padding="0dp"
+                            android:paddingBottom="0dp"
+                            android:paddingStart="10dp"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fgCargaStockF" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/stock_final" />
+                        <TextView
+                            android:id="@+id/textView9"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="0dp"
+                            android:text="@string/stock_final"
+                            android:textAlignment="textStart"
+                            android:textSize="15sp"
+                            app:layout_constraintBaseline_toBaselineOf="@+id/fgCargaStockF"
+                            app:layout_constraintEnd_toStartOf="@+id/fgCargaStockF"
+                            app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fgCargaStockF"
-            android:freezesText="true"
-            android:inputType="number"
-            android:singleLine="true"
-            android:maxLength="5"/>
+                        <EditText
+                            android:id="@+id/fgCargaStockF"
+                            android:layout_width="160dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="8dp"
+                            android:freezesText="true"
+                            android:hint="0"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:padding="0dp"
+                            android:paddingBottom="0dp"
+                            android:paddingStart="10dp"
+                            android:singleLine="true"
+                            android:textSize="15sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fgCargaSalidas" />
 
-        <Button
-            android:id="@+id/fgCargaGuardar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/guardar"/>
+                        <Button
+                            android:id="@+id/fgCargaGuardar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="32dp"
+                            android:text="@string/guardar"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fgCargaVentas" />
 
-    </LinearLayout>
+                </android.support.constraint.ConstraintLayout>
 </ScrollView>

@@ -44,7 +44,7 @@
     <string name="alivios">Alivios:</string>
     <string name="precio_de_las_salchichas">Precio de las salchichas</string>
     <string name="precio_de_las_gaseosas_de_vidrio">Precio de las Gaseosas de vidrio</string>
-    <string name="ventas">Ventas</string>
+    <string name="ventas">Vendidos</string>
     <string name="_0">0</string>
 
     <string-array name="spinner_locales">
