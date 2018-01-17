@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -31,6 +32,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -40,6 +42,7 @@ import java.util.Date;
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, InicialFragment.OnFragmentInteractionListener, CajaFragment.OnFragmentInteractionListener, CargarStocksFragment.OnFragmentInteractionListener{
 
+    private static final String TAG = "PrincipalActivity";
     private FirebaseAuth firebaseAuth;
     private TextView nombre;
     private TextView correo;
@@ -153,11 +156,11 @@ public class PrincipalActivity extends AppCompatActivity
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 sharedPreferences.edit()
                                         .putBoolean("inicialEncontrado",true)
-                                        .putBoolean("inicialCargado",true)
-                                        .putBoolean("SalchichasCargado",true)
-                                        .putBoolean("PanesCargado",true)
-                                        .putBoolean("GaseosasCargado",true)
-                                        .putBoolean("CajaCargado",true)
+//                                        .putBoolean("inicialCargado",true)
+//                                        .putBoolean("SalchichasCargado",true)
+//                                        .putBoolean("PanesCargado",true)
+//                                        .putBoolean("GaseosasCargado",true)
+//                                        .putBoolean("CajaCargado",true)
                                         .apply();
                                 finish();
                             }
@@ -291,12 +294,43 @@ public class PrincipalActivity extends AppCompatActivity
     private void enviarTurno() {
         //Primero enviamos a la bd
 
-        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = s.format(new Date());
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("fandog");
-        myRef.child(format).setValue(miTuno);
+
+
+//        myRef.child(format).setValue(miTuno);
+//        Log.d(TAG, "onComplete: datos: "+miTuno.toString());
+//        Snackbar.make(navigationView,R.string.datosEnviados,Snackbar.LENGTH_LONG)
+//                .setAction("Descartar", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//
+//                    }
+//                })
+//                .show();
+
+        myRef.child(format).setValue(miTuno, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError!=null){
+                    Log.d(TAG, "onComplete: Database setvalue() error: "+ databaseError.getMessage());
+                } else {
+                    Log.d(TAG, "onComplete: Se envio correctamente los datos");
+                    Log.d(TAG, "onComplete: datos: "+miTuno.toString());
+                    Snackbar.make(navigationView,R.string.datosEnviados,Snackbar.LENGTH_LONG)
+                            .setAction("Descartar", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        });
 
         //luego seteamos las variables de iniciales en false.
 

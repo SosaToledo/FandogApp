@@ -151,8 +151,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), "Error, datos demasiado cortos", Toast.LENGTH_SHORT).show();
         }else {
             View view = getActivity().getCurrentFocus();
-            view.clearFocus();
             if (view != null) {
+                view.clearFocus();
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }

@@ -50,6 +50,13 @@
     <string name="cancelar">Cancelar</string>
     <string name="cajaVenta">Ventas totales en $:</string>
     <string name="total_alivios_en">Total alivios en $:</string>
+    <string name="necesitasConexion">Necesitas una conexion activa a internet para usar la app</string>
+    <string name="carga_de_stock">Carga de Stock</string>
+    <string name="cargar_caja">Cargar Caja</string>
+    <string name="todosLosCamposDebenEstarCargados">Todos los campos deben estar cargados</string>
+    <string name="diferenciasEnLaCaja">Diferencias en la caja</string>
+    <string name="auto">Auto</string>
+    <string name="datosEnviados">Datos enviados</string>
 
     <string-array name="spinner_locales">
         <item>-Seleccionar-</item>

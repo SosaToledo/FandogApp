@@ -26,7 +26,7 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
     private String sInicial,cpras,rtos,sCargo,sCargoPers,sdas,sFinal,title;
     private OnChildFragmentInteractionListener mParentListener;
     private SharedPreferences sharedPreferences;
-
+    private Button btnGuardar;
     public ArticuloFragment( ) {
     }
 
@@ -59,7 +59,7 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
         stockFinal = view.findViewById(R.id.fgCargaStockF);
         ventas = view.findViewById(R.id.fgCargaVentas);
 
-        Button btnGuardar = view.findViewById(R.id.fgCargaGuardar);
+        btnGuardar = view.findViewById(R.id.fgCargaGuardar);
         btnGuardar.setOnClickListener(this);
 
         return view;
@@ -93,6 +93,7 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+//        btnGuardar.setEnabled(true);
         if (sharedPreferences.getBoolean(title+"Cargado",false)) {
             poblarFormulario();
         }
@@ -142,6 +143,7 @@ public class ArticuloFragment extends Fragment implements View.OnClickListener {
                                 .putString(title+"Ventas",ventas.getText().toString())
                         .putBoolean(title+"Cargado",true) //aca cargo la variable para comprobar luego y devolverlos de memoria
                         .apply();
+//                view.setEnabled(false);
                 //Agrego tiempo de 5 seg de demora para que se vean los campos.
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {

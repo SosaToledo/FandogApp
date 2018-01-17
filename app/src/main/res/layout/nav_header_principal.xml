@@ -14,11 +14,11 @@
 
     <ImageView
         android:id="@+id/nav_header_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="181dp"
+        android:layout_height="88dp"
+        android:contentDescription="@string/logo_de_la_empresa"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        android:contentDescription="@string/logo_de_la_empresa" />
+        app:srcCompat="@drawable/food_cart" />
 
     <TextView
         android:id="@+id/nav_header_userName"

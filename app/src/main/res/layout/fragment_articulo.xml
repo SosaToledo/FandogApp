@@ -118,7 +118,7 @@
                             android:cursorVisible="false"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
-                            android:hint="0"
+                            android:hint="@string/auto"
                             android:paddingStart="10dp"
                             android:textSize="15sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -262,12 +262,14 @@
 
                         <Button
                             android:id="@+id/fgCargaGuardar"
+                            style="@style/Widget.AppCompat.Button.Colored"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="32dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="32dp"
+                            android:elevation="10dp"
                             android:text="@string/continuar"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
